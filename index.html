@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Refreshing Drinks Co. - Home</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f8f9;
+      color: #1b1b1b;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-top: 70px; /* space for fixed header */
+    }
+
+    /* Fixed header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #2d9c7a;
+      color: white;
+      z-index: 1000;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+    }
+    nav {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: #f0c541;
+      color: #1b1b1b;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+    section {
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #ddd;
+    }
+    section:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    /* Hero section */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+      height: 400px;
+      border-radius: 8px;
+      color: white;
+      text-shadow: 0 0 15px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 3rem;
+      margin-top: 0;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      max-width: 600px;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .btn-primary {
+      background-color: #f0c541;
+      color: #1b1b1b;
+      font-weight: 700;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(240,197,65,0.5);
+      width: max-content;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #d9a823;
+    }
+
+    /* Section titles */
+    h2.section-title {
+      font-size: 2rem;
+      color: #2d9c7a;
+      margin-bottom: 1.5rem;
+      border-bottom: 3px solid #2d9c7a;
+      padding-bottom: 0.5rem;
+      max-width: fit-content;
+    }
+
+    /* Products grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    .product-image {
+      height: 180px;
+      object-fit: cover;
+      width: 100%;
+    }
+    .product-info {
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex-grow: 1;
+    }
+    .product-title {
+      font-weight: 700;
+      color: #333;
+      font-size: 1.1rem;
+    }
+    .product-description {
+      font-size: 0.9rem;
+      color: #666;
+      flex-grow: 1;
+    }
+    .product-price {
+      font-weight: 700;
+      color: #2d9c7a;
+    }
+
+    /* Recipes section */
+    .recipe-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 1.5rem;
+    }
+    .recipe-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .recipe-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    .recipe-image {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+    }
+    .recipe-info {
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .recipe-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #2d9c7a;
+    }
+    .recipe-description {
+      font-size: 0.95rem;
+      color: #444;
+    }
+    .recipe-ingredients {
+      font-size: 0.9rem;
+      color: #555;
+      font-style: italic;
+    }
+
+    /* Events section */
+    .events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .event-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s;
+    }
+    .event-card:hover {
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    .event-title {
+      font-weight: 700;
+      color: #2d9c7a;
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+    .event-date {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.7rem;
+    }
+    .event-description {
+      font-size: 1rem;
+      color: #444;
+    }
+    /* Live Video Section */
+#live {
+  margin: 3rem auto;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+#live .section-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+
+
+
+    /* Customer reviews */
+    #reviews {
+      max-width: 700px;
+    }
+    #reviews blockquote {
+      background: white; 
+      border-radius: 8px; 
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1); 
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      font-style: italic; 
+      color: #555;
+    }
+
+    /* Contact section */
+    #contact address {
+      font-style: normal;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    /* Footer styles */
+    footer {
+      background: #2d9c7a;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: white;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      nav ul {
+        gap: 0.75rem;
+      }
+      .hero {
+        height: 300px;
+        padding-left: 1.5rem;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      #map {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 450px;
+  border: 0;
+}
+.btn {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo"> VD Refreshing Drinks</div>
+      <ul>
+        <li><a href="#hero" class="active">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#recipes">Recipes</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#locations">Locations</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+  
+
+  <main>
+    <section class="hero" id="hero" role="img" aria-label="Refreshing cold drinks in glasses">
+      <h1>Experience Refreshment Like Never Before</h1>
+      <p>Discover our premium range of drinks made with love and the finest ingredients.</p>
+      <a href="#products" class="btn-primary">Explore Our Drinks</a>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">About Us</h2>
+      <p>Welcome to VD Refreshing Drinks Co.! We are passionate about creating the finest beverages.</p>
+      <p>Founded in 2010, our mission is to deliver delicious, natural, and refreshing drinks made from the best ingredients.</p>
+      <p>Learn about our values, commitment to sustainability, and meet the team behind the brand.</p>
+    
+<section id="live">
+  <h2 class="section-title">Live Stream On TV</h2>
+  <p>Watch our latest broadcast below:</p>
+  <div class="video-container">
+    <video 
+      controls 
+      autoplay 
+      muted 
+      loop 
+      playsinline
+    >
+      <source src="D:\git\robo\robo\img\videoplayback.mp4" type="video/mp4">
+      Sorry, your browser doesn’t support embedded videos.
+    </video>
+  </div>
+</section>
+
+
+    <section id="products">
+      <h2 class="section-title">Featured Drinks</h2>
+      <div class="products-grid">
+        <article class="product-card">
+          <img src="D:\git\robo\robo\img\download.jpg" alt="Sparkling Citrus Soda" class="product-image" />
+          <div class="product-info">
+            <h3 class="product-title">Sparkling Citrus Soda</h3>
+            <p class="product-description">A refreshing blend of zesty citrus flavors with a sparkling twist.</p>
+            <div class="product-price">$2.99 / bottle</div>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="D:\git\robo\robo\img\images.jpg" alt="Tropical Pineapple Juice" class="product-image" />
+          <div class="product-info">
+            <h3 class="product-title">Tropical Pineapple Juice</h3>
+            <p class="product-description">Sweet and tangy pineapple juice, perfect for any occasion.</p>
+            <div class="product-price">$3.49 / bottle</div>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="D:\git\robo\robo\img\bph2ciu1ymir1yb1vg2j.avif" alt="Classic Cola" class="product-image" />
+          <div class="product-info">
+            <h3 class="product-title">Classic Cola</h3>
+            <p class="product-description">Rich and satisfying cola taste traditionally loved worldwide.</p>
+            <div class="product-price">$2.79 / bottle</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="recipes">
+      <h2 class="section-title">Recipes & Mixology</h2>
+      <div class="recipe-list">
+        <article class="recipe-card">
+          <img src="D:\git\robo\robo\img\IMG_2580-scaled.jpg" alt="Citrus Sparkle Cocktail" class="recipe-image" />
+          <div class="recipe-info">
+            <h3 class="recipe-title">Citrus Sparkle Cocktail</h3>
+            <p class="recipe-description">A zesty, sparkling cocktail perfect for summer evenings.</p>
+            <p class="recipe-ingredients"><strong>Ingredients:</strong> Sparkling Citrus Soda, Lemon Juice, Vodka, Mint Leaves</p>
+          </div>
+        </article>
+        <article class="recipe-card">
+          <img src="D:\git\robo\robo\img\Tropical-Pineapple-Punch-Mocktail-Recipe-768x768.webp" alt="Tropical Pineapple Punch" class="recipe-image" />
+          <div class="recipe-info">
+            <h3 class="recipe-title">Tropical Pineapple Punch</h3>
+            <p class="recipe-description">A sweet and tangy punch to refresh your party.</p>
+            <p class="recipe-ingredients"><strong>Ingredients:</strong> Tropical Pineapple Juice, Rum, Lime Juice, Fresh Pineapple</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="events">
+      <h2 class="section-title">Upcoming Events</h2>
+      <div class="events-list">
+        <article class="event-card">
+          <h3 class="event-title">Summer Festival Sponsorship</h3>
+          <p class="event-date">July 23, 2026 - Central Park</p>
+          <p class="event-description">Join us at the annual Summer Festival where we'll showcase our newest drinks and offer tasting sessions for visitors.</p>
+        </article>
+        <article class="event-card">
+          <h3 class="event-title">Mixology Workshop</h3>
+          <p class="event-date">August 14, 2026 - Downtown Store</p>
+          <p class="event-description">Learn to mix cocktails using our products with professional bartenders. Book your spot early!</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <h2 class="section-title">Customer Reviews</h2>
+      <blockquote>
+        "Absolutely love the classic cola! Refreshing and perfect every time." – Sarah L.
+      </blockquote>
+      <blockquote>
+        "The tropical pineapple juice is my go-to drink on hot summer days. Highly recommend!" – Michael W.
+      </blockquote>
+      <blockquote>
+        "Customer service was fantastic. Delivery was quick and drinks were packed perfectly." – Linda K.
+      </blockquote>
+    </section>
+
+    
+<section id="map">
+    <h2 class="section-title">Where to Find Us</h2>
+      <p>Visit our stores or find our drinks online. Check out these locations:</p>
+      <address>
+        <strong>Downtown Store</strong><br />
+        123 Refreshment Ave.<br />
+        Springfield, ST 12345<br />
+        Phone: (555) 123-4567<br />
+        <a href="https://maps.google.com/?q=123+Refreshment+Ave,+Springfield" target="_blank" rel="noopener">View on Google Maps</a>
+      </address>
+      <address>
+        <strong>Central Mall Outlet</strong><br />
+        456 Beverage Blvd.<br />
+        Springfield, ST 12345<br />
+        Phone: (555) 987-6543<br />
+        <a href="https://maps.google.com/?q=456+Beverage+Blvd,+Springfield" target="_blank" rel="noopener">View on Google Maps</a>
+      </address>
+  <h2 class="section-title">Our Location</h2>
+  <div class="map-container">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=YOUR_LOCATION_CODE"
+      width="100%" 
+      height="450" 
+      style="border:0;" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</section>
+
+    <section id="contact">
+      <h2 class="section-title">Contact Us</h2>
+      <p>We'd love to hear from you! Reach out with any questions or feedback.</p>
+      <address>
+        <strong> VD Refreshing Drinks Co.</strong><br />
+        789 Beverage Lane<br />
+        Springfield, ST 12345<br />
+        Phone: (555) 222-3344<br />
+        Email: <a href="mailto:info@vdrefreshingdrinks.com">info@vdrefreshingdrinks.com</a><br />
+        Registration No: 987654321<br />
+
+      </address>
+
+      <section id="FOR PRIMUM CUSTOMERS">
+        <h2 class="section-title">FOR PRIMUME CUSTOMERS</h2>
+      <a href="D:\git\robo\robo\VDS\vd\index.html" class="btn"> <H4><B>LET'S GO</B></H4></a>
+
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 VD Refreshing Drinks Co. All rights reserved. | Follow us on 
+    <a href="#" style="color:#f0c541; text-decoration:none;" aria-label="Facebook">Facebook</a>, 
+    <a href="#" style="color:#f0c541; text-decoration:none;" aria-label="Instagram">Instagram</a>, 
+    <a href="#" style="color:#f0c541; text-decoration:none;" aria-label="Twitter">Twitter</a>
+  </footer>
+</body>
+</html>
+
